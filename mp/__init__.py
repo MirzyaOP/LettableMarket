@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 app = Client(
-    "MARKET",
+    "App",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
@@ -25,18 +25,20 @@ app = Client(
 
 
 boot = time.time()
-async def market():
+async def code():
     try:
         await app.start()
-        await asyncio.sleep(2)
     except FloodWait as ex:
         LOGGER.warning(ex)
         await asyncio.sleep(ex.value)
-    print(1)
     try:
         LOGGER.info(f"Bot Started As {app.me.first_name}")
     except Exception as e:
         print(e)
         exit()
+    try:
+        await app.set_bot_commands([BotCommand("start", "Starts The Bot")])
+    except Exception as e:
+        print(f"Cmds {e}")
 
-asyncio.get_event_loop().run_until_complete(market())
+asyncio.get_event_loop().run_until_complete(code())
